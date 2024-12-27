@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css"; // Import Quill CSS
 import ReactQuill from "react-quill"; // Import ReactQuill
 import axios from "axios"; // Import axios
 import { baseUrl } from "../Urls";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./addblogs.css";
 
 const UpdateBlogs = () => {
@@ -19,6 +19,8 @@ const UpdateBlogs = () => {
   const { id } = useParams();
   const [categoryName, setCategoryName] = useState(""); // State for new category input
   const [categories, setCategories] = useState([]); // State for fetched categories
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -78,6 +80,7 @@ const UpdateBlogs = () => {
       });
       console.log("Blog updated successfully:", response.data);
       alert("Blog updated successfully");
+      navigate("/blogs/blog-list");
     } catch (error) {
       console.error("Error updating blog:", error);
       alert("Failed to update blog. Please try again.");

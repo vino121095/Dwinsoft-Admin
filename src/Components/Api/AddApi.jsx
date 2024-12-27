@@ -5,6 +5,8 @@ import ReactQuill from "react-quill"; // Import ReactQuill
 import axios from "axios"; // Import axios
 import { baseUrl } from "../Urls";
 import "./addapi.css";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 const AddApi = () => {
   const [title, setTitle] = useState(""); // State to manage title
@@ -13,6 +15,8 @@ const AddApi = () => {
   const [description, setDescription] = useState(""); // State for description
   const [selectedFile, setSelectedFile] = useState(null); // State for banner image upload
   const [descriptionImage, setDescriptionImage] = useState(null); // State for description image upload
+  const navigate = useNavigate();
+
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -49,6 +53,7 @@ const AddApi = () => {
       });
       console.log("API created successfully:", response.data);
       alert("API created successfully");
+      navigate("/users/api-list");
     } catch (error) {
       console.error("Error submitting API:", error);
       alert("Failed to create API. Please try again.");

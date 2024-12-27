@@ -5,6 +5,8 @@ import ReactQuill from "react-quill"; // Import ReactQuill
 import axios from "axios"; // Import axios
 import { baseUrl } from "../Urls";
 import "./addblogs.css";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 const Addblogs = () => {
   const [title, setTitle] = useState(""); // State to manage title
@@ -14,6 +16,8 @@ const Addblogs = () => {
   const [category, setCategory] = useState([]); // State for category selection
   const [categoryName, setCategoryName] = useState(""); // State for new category input
   const [categories, setCategories] = useState([]); // State for fetched categories
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     async function fetchCategories() {
@@ -81,6 +85,7 @@ const Addblogs = () => {
       });
       console.log("Blog created successfully:", response.data);
       alert("Blog created successfully");
+      navigate("/blogs/blog-list");
     } catch (error) {
       console.error("Error submitting blog:", error);
       alert("Failed to create blog. Please try again.");

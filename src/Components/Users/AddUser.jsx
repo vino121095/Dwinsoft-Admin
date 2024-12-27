@@ -3,8 +3,11 @@ import axios from "axios";
 import "./AddUser.css";
 import Dashboard from "../Dashboard/Dashboard";
 import { baseUrl } from "../Urls";
+import { useParams, useNavigate } from "react-router-dom";
 
 const AddUser = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     userName: "",
     email: "", // Default email (editable)
@@ -27,6 +30,7 @@ const AddUser = () => {
       const response = await axios.post(`${baseUrl}/api/user`, formData);
       console.log("Response:", response.data);
       alert("User added successfully!");
+      navigate("/users/user-list");
       // Optionally, reset the form or navigate to another page
     } catch (error) {
       console.error("Error:", error);

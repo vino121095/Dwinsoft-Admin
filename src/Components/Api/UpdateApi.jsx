@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css"; // Import Quill CSS
 import ReactQuill from "react-quill"; // Import ReactQuill
 import axios from "axios"; // Import axios
 import { baseUrl } from "../Urls";
-import { useParams } from "react-router-dom"; // For handling dynamic route params
+import { useParams, useNavigate } from "react-router-dom";
 import "./addapi.css";
 
 const UpdateApi = () => {
@@ -15,6 +15,8 @@ const UpdateApi = () => {
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [descriptionImage, setDescriptionImage] = useState(null);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     // Fetch data from backend when component mounts
@@ -64,6 +66,7 @@ const UpdateApi = () => {
 
       console.log("API updated successfully:", response.data);
       alert("API updated successfully");
+      navigate("/users/api-list");
     } catch (error) {
       console.error("Error updating API:", error.response?.data || error.message);
       alert("Failed to update API. Please try again.");

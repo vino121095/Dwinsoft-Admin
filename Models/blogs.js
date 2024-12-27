@@ -3,6 +3,17 @@ const sequelize = require("../Config/db");
 
 // Define the Blog model
 const Blog = sequelize.define("Blog", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+},
+blog_id: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+},
   title: {
     type: DataTypes.STRING,
     allowNull: false,
