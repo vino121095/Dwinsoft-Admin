@@ -15,7 +15,7 @@ const PORT = 5000;
 
 // Middleware
 app.use(cors({ 
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:3001", "http://localhost:3000"],
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
   credentials: true,
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
