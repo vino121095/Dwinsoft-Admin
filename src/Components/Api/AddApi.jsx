@@ -141,12 +141,12 @@ const AddApi = () => {
                   placeholder="Write the blog content here..."
                 />
                 <div className="d-flex descimage-container">
-                  <label htmlFor="descriptionImage">Description Image:</label>
+                  {/* <label htmlFor="descriptionImage">Description Image:</label>
                   <input
                     className="cf"
                     type="file"
                     onChange={handleDescriptionImageChange}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

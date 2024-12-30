@@ -21,8 +21,11 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "html-react-parser": "^5.2.2",
+<<<<<<< HEAD
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
+=======
+>>>>>>> 2a79167cd896af8cf2ba65f934e676d222866097
     "mysql2": "^3.12.0",
     "react": "^18.3.1",
     "react-bootstrap-icons": "^1.11.5",
