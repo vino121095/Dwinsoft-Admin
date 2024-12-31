@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+  overflow-x: hidden;
+}
+
+.addapi-parent {
+  background-color: ghostwhite;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+ 
+}
+
+.addapi-parent .addapi-form{
+ height: 100%;
+ width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addapi-parent .api-form{
+  height: 75%;
+  width: 95%;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+ 
+
+}
+
+.addapi-parent .childform{
+  height: 80%;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+}
+
+.addapi-parent .childform .left{
+  height: 100%;
+  width: 50%;
+  background-color: white;
+  border-right: 1px solid gray;
+  margin: 0px;
+}
+.addapi-parent .childform .right{
+  height: 100%;
+  width: 50%;
+  background-color:white;
+}
+
+
+.addapi-parent .childform .left form{
+  padding: 20px;
+}
+.addapi-parent .childform .left form label{
+  font-family: "Roboto", serif;
+  margin-top: 30px;
+}
+.addapi-parent .childform .left form input{
+  font-family: "Roboto", serif;
+  padding: 10px;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 80%;
+}
+
+.addapi-parent .childform .left form #shortDescription{
+  height: 200px;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+}
+
+.addapi-parent .childform .right .b-form{
+
+  padding: 20px;
+
+}
+
+.addapi-parent .childform .right .b-form .descimage-container{
+  margin: 20px;
+}
+
+
+
+@media only screen and (max-width: 1200px) {
+
+
+  .addapi-parent .childform{
+    flex-wrap: wrap;
+  }
+
+
+
+  .addapi-parent .api-form .left{
+    height: 80%;
+    width: 100%;
+   
+    margin-top: 5px;
+  }
+  .addapi-parent .api-form .right{
+    height: 80%;
+    width: 100%;
+   
+    margin-top: 5px;
+  }
+  
+
+  .dash-parent {
+    display: none;
+  }
+
+
+  .addblogs-parent {
+    background-color: ghostwhite;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100vw;
+  }
+
+  .addblogs-parent .right {
+
+    margin: 20px;
+    height: 100%;
+    width: 90%;
+
+  }
+
+
+  .addblogs-parent .right .up {
+
+    height: 100%;
+    width: 100% !important;
+
+  }
+
+  .addblogs-parent .right .up .left {
+    background-color: white;
+    height: 60vh;
+    width: 65%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+
+  .addblogs-parent .right .up .right {
+    background-color: white;
+    height: 60vh;
+    width: 30%;
+    border: 1px solid black;
+    margin: 0px;
+  }
+
+  .addblogs-parent .right .up .right-down {
+    background-color: white;
+    height: 500px;
+    width: 100%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+  .left-form form .input2 {
+    height: 240px;
+    width: 360px;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+
+  .addapi-parent .childform{
+    flex-wrap: wrap;
+  }
+
+  .dash-parent {
+    display: none;
+  }
+
+
+  .addblogs-parent {
+    background-color: ghostwhite;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100vw;
+  }
+
+  .addblogs-parent .right {
+
+    margin: 20px;
+    height: 100%;
+    width: 90%;
+
+  }
+
+
+  .addblogs-parent .right .up {
+
+    height: 100%;
+    width: 95% !important;
+    display: block;
+  }
+
+  .addblogs-parent .right .up .left {
+    background-color: white;
+    height: 60vh;
+    width: 100%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+
+  .addblogs-parent .right .up .right {
+    background-color: white;
+    height: 60vh;
+    width: 100%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+  .left-form form .input2 {
+    height: 240px;
+    width: 300px;
+  }
+
+}

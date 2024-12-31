@@ -1,0 +1,455 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+
+
+body {
+  overflow-x: hidden;
+}
+
+.addblogs-parent {
+  background-color: ghostwhite;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100% !important;
+}
+
+.addblogs-parent .right {
+
+  margin: 20px;
+  width: 80vw;
+}
+
+.addblogs-parent .right .up {
+
+  height: 100% !important;
+  width: 100% !important;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.addblogs-parent .right .up .left {
+  background-color: white;
+  height: 50%;
+  width: 60%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 8px;
+}
+
+.addblogs-parent .right .up .right {
+  background-color: white;
+  height: 50%;
+  width: 20%;
+
+  margin-left: 15px;
+  border-radius: 8px;
+  margin-top: 0px;
+  display: flex;
+  justify-content: center;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.addblogs-parent .right .up .right-down {
+  background-color: white;
+  height: 60%;
+  width: 70%;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin: 5px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+
+#root {
+  padding: 0;
+  margin: 0;
+}
+
+.dash-parent {
+  height: 100vh;
+  width: 50%;
+  overflow: hidden;
+}
+
+
+.addBlogsParent {
+  background-color: red;
+  display: flex;
+  width: 50%;
+  margin-left: 0;
+}
+
+.main-bar {
+  background-color: ghostwhite;
+  width: 50%;
+}
+
+.form {}
+
+.form h1 {
+  color: rgb(70, 70, 70);
+  text-align: start;
+  margin-left: 30px;
+  font-weight: normal;
+}
+
+.all-form {
+  height: auto;
+  width: 90%;
+
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.top-forms {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.top-forms .left-form {
+  height: 60vh;
+  width: 50vw;
+  min-width: 50vw;
+
+  background-color: white;
+  margin: 10px;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 4px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+
+}
+
+.top-forms .right-form {
+  height: 60vh;
+  width: 30vw;
+  background-color: white;
+  margin: 10px;
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 4px;
+
+}
+
+.all-form .bottom-form {
+  height: 70vh;
+  width: 70vw;
+  margin-top: 0px;
+
+}
+
+.addblogs-parent .right .up .right-down .b-form {
+  height: 70vh;
+  width: 90% !important;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(170, 170, 170);
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 20PX;
+}
+
+.left-form form {
+  text-align: start;
+  margin: 20px;
+}
+
+.left-form form label {
+  font-family: "Roboto", serif;
+  font-size: 16px;
+  margin: 10px;
+
+
+}
+
+.left-form form input {
+  font-family: "Roboto", serif;
+  margin: 10px;
+  margin-bottom: 20px;
+  height: 34px;
+  width: 90%;
+  border: 1px solid rgb(191, 191, 191);
+  border-radius: 4px;
+}
+
+.left-form form input::placeholder {
+  padding: 5px;
+}
+
+
+.left-form form .descInput {
+  font-family: "Roboto", serif;
+  height: 200px; /* Height for single-line input */
+  width: 500px;
+  text-align: left;
+  display: block !important;
+  padding-top: 0px; /* Ensure cursor is aligned at the top */
+  padding-left: 5px; /* Space from the left */
+  padding-right: 5px; /* Optional: add space on the right */
+  padding-bottom: 0px;
+}
+
+#shortDescription {
+  height: 200px;
+  width: 500px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#charCount {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #555;
+}
+
+#shortDescription {
+  word-wrap: break-word;
+}
+
+
+
+.top-forms .right-form .categories label {
+  font-family: "Roboto", serif;
+  margin-bottom: 20px;
+  padding: 10px;
+  text-align: start;
+}
+
+.top-forms .right-form .new-categories {
+  font-family: "Roboto", serif;
+  margin-top: 20px;
+}
+
+.addnew {
+  font-family: "Roboto", serif;
+  margin-top: 30px;
+}
+
+.image-upload-container {
+  font-family: "Roboto", serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.custom-file-upload {
+  font-family: "Roboto", serif;
+  background-color: #09007A;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+.custom-file-upload:hover {
+  background-color: #02327a;
+}
+
+#file-upload {
+  font-family: "Roboto", serif;
+  display: none;
+}
+
+.file-name {
+  color: #02327a;
+  font-size: 14px;
+  border: 1px solid gray;
+  border-radius: 2px;
+}
+
+.right .right-form {
+  display: flex;
+  justify-content: center;
+
+}
+
+.right-form .categories {
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.left-form .submit-button {
+  background-color: #09007A;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  margin-left: 10px;
+}
+
+.right-form .form-child {
+  padding-left: 10px;
+}
+
+.right-form h3 {
+  margin-bottom: 5px;
+  padding: 0px;
+}
+
+.add-category {
+  margin-top: 10px;
+
+}
+
+.right-form .form-child .categories {
+  width: 80%;
+  font-family: "Roboto", serif;
+  font-size: 14px;
+}
+
+.add-category input {
+  padding: 6px;
+  width: 60%;
+  border: 1px solid gray;
+  border-radius: 4px;
+  font-family: "Roboto", serif;
+  font-size: 12px;
+}
+
+.add-category-button {
+  background-color: #09007A !important;
+  border: none;
+  border-radius: 4px;
+  padding: 6px;
+  color: white;
+  margin-left: 2px;
+}
+
+.right-down {
+  height: 100% !important;
+}
+
+.b-form {
+  min-height: 100% !important;
+}
+
+@media only screen and (max-width: 1200px) {
+
+  .dash-parent {
+    display: none;
+  }
+
+
+  .addblogs-parent {
+    background-color: ghostwhite;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100vw;
+  }
+
+  .addblogs-parent .right {
+
+    margin: 20px;
+    height: 100%;
+    width: 90%;
+
+  }
+
+
+  .addblogs-parent .right .up {
+
+    height: 100%;
+    width: 100% !important;
+
+  }
+
+  .addblogs-parent .right .up .left {
+    background-color: white;
+    height: 80vh;
+    width: 65%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+
+  .addblogs-parent .right .up .right {
+    background-color: white;
+    height: 60vh;
+    width: 30%;
+    border: 1px solid black;
+    margin: 0px;
+  }
+
+  .addblogs-parent .right .up .right-down {
+    background-color: white;
+    height: 500px;
+    width: 100%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+  .left-form form .input2 {
+    height: 240px;
+    width: 360px;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  .dash-parent {
+    display: none;
+  }
+
+
+  .addblogs-parent {
+    background-color: ghostwhite;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100% !important;
+    width: 100vw;
+  }
+
+  .addblogs-parent .right {
+
+    margin: 20px;
+    height: 100%;
+    width: 90%;
+
+  }
+
+
+  .addblogs-parent .right .up {
+
+    height: 100%;
+    width: 95% !important;
+    display: block;
+  }
+
+  .addblogs-parent .right .up .left {
+    background-color: white;
+    height: 100% !important;
+    width: 100%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+
+  .addblogs-parent .right .up .right {
+    background-color: white;
+    height: 60vh;
+    width: 100%;
+    border: 1px solid black;
+    margin: 5px;
+  }
+
+  .left-form form .input2 {
+    height: 240px;
+    width: 300px;
+  }
+
+}
