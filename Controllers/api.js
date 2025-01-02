@@ -2,6 +2,7 @@ const ApiDocs = require('../Models/apiDocs'); // Import ApiDocs model
 const cloudinary = require('cloudinary').v2; // Import Cloudinary
 const multer = require('multer'); // Import Multer
 const path = require('path'); // Import Path
+const fs = require("fs");
 
 // Cloudinary Configuration
 cloudinary.config({
@@ -20,24 +21,29 @@ const storage = multer.diskStorage({
   },
 });
 
-exports.upload = multer({
+const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // Max file size: 10MB
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith("image/")) {
-      cb(null, true);
-    } else {
-      cb(new Error("Invalid file type. Only images are allowed."));
-    }
+  limits: {
+    fieldNameSize: 100 * 1024 * 1024, // Field name size limit (100 MB)
+    fieldSize: 100 * 1024 * 1024, // Max field value size (100 MB)
+    fileSize: Infinity, // No file size limit
+    files: Infinity, // No limit on the number of files
   },
-});
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Invalid file type. Only images are allowed."));
+  },
+}).fields([
+  { name: "bannerImage", maxCount: 1 },
+  { name: "descriptionImage", maxCount: 1 },
+]);
 
-exports.createApiDoc = async (req, res) => {
+// API Doc Creation
+const createApiDoc = async (req, res) => {
   try {
     const { title, short_desc, description = "Draft" } = req.body;
 
     let banner_image_url = null;
-   // let description_image_url = null;
     let link = req.body.link || null; // Keep link as null if not provided
 
     // Upload banner image if provided
@@ -47,7 +53,6 @@ exports.createApiDoc = async (req, res) => {
       console.log("Banner Image URL:", banner_image_url);
     }
 
-   
     console.log(title, short_desc, description, banner_image_url, link);
 
     // Create new API doc entry
@@ -70,10 +75,8 @@ exports.createApiDoc = async (req, res) => {
   }
 };
 
-
-
 // Controller to get all API documents
-exports.getApiDocs = async (req, res) => {
+const getApiDocs = async (req, res) => {
   try {
     const apiDocs = await ApiDocs.findAll();
     res.status(200).json(apiDocs);
@@ -84,12 +87,13 @@ exports.getApiDocs = async (req, res) => {
 };
 
 // Controller to get a single API document by api_id
-exports.getApiDoc = async (req, res) => {
+const getApiDoc = async (req, res) => {
   try {
+    const { id } = req.params;
     const apiDoc = await ApiDocs.findOne({
-      where: { api_id: req.params.api_id }, // Use findOne with a where clause
+      where: { api_id: id }, // Use findOne with a where clause
     });
-    
+
     if (apiDoc) {
       res.status(200).json(apiDoc);
     } else {
@@ -101,57 +105,83 @@ exports.getApiDoc = async (req, res) => {
   }
 };
 
-
-// Controller to update an API document
-exports.updateApiDoc = async (req, res) => {
+const updateApiDoc = async (req, res) => {
   try {
-    const { title, link, short_desc, description } = req.body;
+    const { id } = req.params; // This will receive the api_id from the URL
+    const { title, link, short_desc, description, status, category } = req.body;
 
-    // Upload new images to Cloudinary if provided
-    let bannerImage;
-   
+    console.log("Received ID:", id);
+    console.log("Received Data from Frontend:", title, link, short_desc, description);
 
+    let banner_image_url = null;
+    let description_image_url = null;
+
+    // Find the API document by api_id, which is unique
+    const api = await ApiDocs.findOne({ where: { api_id: id } });
+  
+    if (!api) {
+      console.log("API NOT FOUND GIRI")
+      return res.status(404).json({ error: "API not found" });
+    }
+
+    // Update banner image if provided
     if (req.files && req.files.bannerImage) {
-      const bannerImageResult = await cloudinary.uploader.upload(req.files.bannerImage[0].path);
-      console.log("Updated Banner Image URL:", bannerImageResult.secure_url);
-      bannerImage = bannerImageResult.secure_url;
+      const result = await cloudinary.uploader.upload(req.files.bannerImage[0].path);
+      banner_image_url = result.secure_url;
+      // Optionally, delete the old image from Cloudinary
+      if (api.bannerImage) {
+        const publicId = api.bannerImage.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(publicId);
+      }
+      fs.unlinkSync(req.files.bannerImage[0].path);
+    } else {
+      banner_image_url = api.bannerImage; // Keep the old image if not uploaded
+    }
+
+    // Update description image if provided
+    if (req.files && req.files.descriptionImage) {
+      const result = await cloudinary.uploader.upload(req.files.descriptionImage[0].path);
+      description_image_url = result.secure_url;
+      // Optionally, delete the old image from Cloudinary
+      if (api.descriptionImage) {
+        const publicId = api.descriptionImage.split("/").pop().split(".")[0];
+        await cloudinary.uploader.destroy(publicId);
+      }
+      fs.unlinkSync(req.files.descriptionImage[0].path);
+    } else {
+      description_image_url = api.descriptionImage; // Keep the old image if not uploaded
     }
 
    
-
-    const updatedFields = {
+    console.log('FiNdED API = ',api)
+    // Update the API document
+    await api.update({
       title,
       link,
       short_desc,
       description,
-      ...(bannerImage && { bannerImage }),
-      
-    };
-
-    const [updated] = await ApiDocs.update(updatedFields, {
-      where: { api_id: req.params.api_id },
+      bannerImage: banner_image_url,
+      descriptionImage: description_image_url,
+      status,
+      link,
     });
-
-    if (updated) {
-      const updatedApiDoc = await ApiDocs.findOne({
-        where: { api_id: req.params.api_id }, // Use findOne with a where clause
-      });
-      res.status(200).json(updatedApiDoc);
-    } else {
-      res.status(404).json({ message: "ApiDoc not found" });
-    }
+    console.log("ApI UpDated Successfully")
+    res.status(200).json({ message: "API updated successfully", api });
   } catch (error) {
-    console.error("Error in updateApiDoc:", error);
-    res.status(500).json({ message: error.message });
+    console.error("Error updating API:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
+
 // Controller to delete an API document
-exports.deleteApiDoc = async (req, res) => {
+const deleteApiDoc = async (req, res) => {
   try {
+    const { id } = req.params; // Ensure to extract id from request params
+
     // Find and delete the ApiDocs record
     const deleted = await ApiDocs.destroy({
-      where: { api_id: req.params.api_id }, // Use destroy method with a where clause
+      where: { api_id: id }, // Use destroy method with a where clause
     });
 
     if (deleted) {
@@ -164,3 +194,5 @@ exports.deleteApiDoc = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = { createApiDoc, upload, getApiDoc, getApiDocs, updateApiDoc, deleteApiDoc };

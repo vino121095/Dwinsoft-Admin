@@ -36,6 +36,7 @@ body {
   width: 60%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 8px;
+  border: 2px solid gainsboro !important;
 }
 
 .addblogs-parent .right .up .right {
@@ -49,6 +50,13 @@ body {
   display: flex;
   justify-content: center;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 2px solid gainsboro !important;
+
+}
+
+.b-form{
+
+  border: none !important;
 }
 
 .addblogs-parent .right .up .right-down {
@@ -59,6 +67,7 @@ body {
   margin: 5px;
   margin-bottom: 30px;
   border-radius: 8px;
+ 
 }
 
 
@@ -75,7 +84,7 @@ body {
 
 
 .addBlogsParent {
-  background-color: red;
+
   display: flex;
   width: 50%;
   margin-left: 0;
@@ -203,6 +212,7 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+ 
 }
 
 #charCount {
@@ -288,8 +298,15 @@ body {
   border-radius: 4px;
   border: none;
   margin-left: 10px;
+  width: 30%;
 }
 
+.left-form .submit-button:hover{
+  background-color: white;
+  color: #09007A;
+  border: 1px solid #09007A;
+  border-radius: 4px;
+}
 .right-form .form-child {
   padding-left: 10px;
 }
@@ -397,6 +414,38 @@ body {
     width: 360px;
   }
 
+  #shortDescription {
+    height: 200px;
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  
+  }
+
+  .b-form{
+    /* border:2px solid yellow !important; */
+    height: 100% !important;
+  }
+  .addblogs-parent .right .up .right {
+    background-color: white;
+    height: 60vh !important;
+    width: 20%;
+    margin-left: 15px;
+    border-radius: 8px;
+    margin-top: 0px;
+    display: flex;
+    justify-content: center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    /* border: 2px solid red !important; */
+  
+  }
+
+
 }
 
 @media only screen and (max-width: 600px) {
@@ -415,13 +464,16 @@ body {
   }
 
   .addblogs-parent .right {
-
+    height: 100% !important;
     margin: 20px;
     height: 100%;
     width: 90%;
-
+   padding: 20p;
   }
-
+.b-form{
+  /* border:2px solid yellow !important; */
+  height: 100% !important;
+}
 
   .addblogs-parent .right .up {
 
@@ -451,5 +503,21 @@ body {
     height: 240px;
     width: 300px;
   }
+
+
+  .addblogs-parent .right .up .right {
+    background-color: white;
+    height: 100% !important;
+    width: 20%;
+    margin-left: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    /* border: 2px solid red !important; */
+    padding-top: 10px;
+  }
+
 
 }

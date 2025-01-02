@@ -23,14 +23,13 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-
 const upload = multer({
   storage,
-   limits: {
-      fieldNameSize: 100 * 1024 * 1024, // Field name size limit (100 MB)
-      fieldSize: 100 * 1024 * 1024, // Max field value size (100 MB)
-      fileSize: Infinity, // No file size limit
-      files: Infinity, // No limit on the number of files
+  limits: {
+    fieldNameSize: 100 * 1024 * 1024, // Field name size limit (100 MB)
+    fieldSize: 100 * 1024 * 1024, // Max field value size (100 MB)
+    fileSize: Infinity, // No file size limit
+    files: Infinity, // No limit on the number of files
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) cb(null, true);
@@ -40,27 +39,20 @@ const upload = multer({
   { name: "bannerImage", maxCount: 1 },
   { name: "descriptionImage", maxCount: 1 },
 ]);
-
 const createBlog = async (req, res) => {
   try {
     const { title, short_desc, description, category, status = "Draft" } = req.body;
     let banner_image_url = null;
- 
+
 
     if (req.files.bannerImage) {
       const result = await cloudinary.uploader.upload(req.files.bannerImage[0].path);
       banner_image_url = result.secure_url;
     }
-   
 
 
-console.log(title,
-  short_desc,
-  description,
-  category,
-  banner_image_url,
- 
-  status)
+
+    console.log("CREATING BLOG : ",title)
 
     const newBlog = await Blog.create({
       title,
@@ -68,20 +60,17 @@ console.log(title,
       description,
       category,
       banner_image_url,
-    
       status,
     });
 
     if (req.files.bannerImage) fs.unlinkSync(req.files.bannerImage[0].path);
-   
+
 
     res.status(200).json({ message: "Blog added successfully", newBlog });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
 
 
 // Get Blogs Controller

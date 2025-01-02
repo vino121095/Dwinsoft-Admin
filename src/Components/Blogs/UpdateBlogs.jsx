@@ -6,6 +6,7 @@ import axios from "axios"; // Import axios
 import { baseUrl } from "../Urls";
 import { useParams, useNavigate } from "react-router-dom";
 import "./addblogs.css";
+import Compressor from "compressorjs"; // Import Compressor.js
 
 const UpdateBlogs = () => {
   const [title, setTitle] = useState("");
@@ -13,14 +14,11 @@ const UpdateBlogs = () => {
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [category, setCategory] = useState([]);
-  // const [newCategory, setNewCategory] = useState("");
   const [blog, setBlog] = useState(null);
-
   const { id } = useParams();
-  const [categoryName, setCategoryName] = useState(""); // State for new category input
-  const [categories, setCategories] = useState([]); // State for fetched categories
+  const [categoryName, setCategoryName] = useState("");
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -29,14 +27,16 @@ const UpdateBlogs = () => {
         const blogData = response.data;
 
         const blogToUpdate = blogData.find((b) => b.id === parseInt(id));
-        console.log(blogToUpdate);
         if (blogToUpdate) {
           setBlog(blogToUpdate);
           setTitle(blogToUpdate.title);
           setShortDescription(blogToUpdate.short_desc);
           setDescription(blogToUpdate.description);
-          // Ensure category is always set as an array
-          setCategory(Array.isArray(blogToUpdate.category) ? blogToUpdate.category : []);
+          setCategory(
+            Array.isArray(blogToUpdate.category)
+              ? blogToUpdate.category
+              : blogToUpdate.category.split(" ")
+          );
         } else {
           console.error("Blog not found for the given ID");
         }
@@ -48,44 +48,7 @@ const UpdateBlogs = () => {
     fetchBlog();
   }, [id]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("short_desc", shortDescription);
-    formData.append("description", description);
-
-    // Ensure category is an array before calling .join() with a space
-    const categoryData = Array.isArray(category) ? category.join(' ') : '';
-    formData.append("category", categoryData);
-
-    if (selectedFile) {
-      formData.append("bannerImage", selectedFile);
-    }
-
-    // Log the values before sending them to the backend
-    console.log("Updated Blog Data:");
-    console.log("Title:", title);
-    console.log("Short Description:", shortDescription);
-    console.log("Description:", description);
-    console.log("Categories:", categoryData);
-    console.log("Selected File:", selectedFile);
-
-    try {
-      const response = await axios.put(`${baseUrl}/api/blog/update/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("Blog updated successfully:", response.data);
-      alert("Blog updated successfully");
-      navigate("/blogs/blog-list");
-    } catch (error) {
-      console.error("Error updating blog:", error);
-      alert("Failed to update blog. Please try again.");
-    }
-  };
+  const handleFileChange = (e) => setSelectedFile(e.target.files[0]);
 
   const handleCategoryChange = (event) => {
     const { value, checked } = event.target;
@@ -102,33 +65,122 @@ const UpdateBlogs = () => {
         const response = await axios.get(`${baseUrl}/api/categories/list`);
         setCategories(response.data);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       }
     }
 
     fetchCategories();
   }, []);
 
-  // Add new category
-  const handleAddCategory = async (e) => {
-    e.preventDefault(); // Prevent default form submission
 
-    if (!categoryName.trim()) return; // Check for empty input
+ const compressImage = (file) => {
+    return new Promise((resolve, reject) => {
+      const targetSize = 45 * 1024; // Target size (45KB with tolerance +/- 5KB)
+      const minQuality = 0.1; // Minimum compression quality
+      let quality = 0.2; // Aggressive starting quality
+      let maxWidth = 600; // Max width to drastically reduce resolution
+      let maxHeight = 600; // Max height to drastically reduce resolution
+  
+      const compress = (blob) => {
+        if (quality < minQuality) {
+          console.warn("Image compression reached minimum quality but could not meet target size:", blob.size / 1024, "KB");
+          resolve(blob); // Return the best possible result
+          return;
+        }
+  
+        new Compressor(blob, {
+          quality, // Aggressive compression quality
+          maxWidth, // Force resizing
+          maxHeight, // Force resizing
+          success(result) {
+            if (result.size <= 50 * 1024 && result.size >= 40 * 1024) {
+              resolve(result); // If size is within the 40-50 KB range, accept it
+            } else if (result.size > 50 * 1024) {
+              // If the size is still too large, reduce quality more
+              quality -= 0.05;
+              compress(result); // Retry compression
+            } else {
+              // If the image is still too small, increase quality slightly
+              quality += 0.05;
+              compress(blob); // Retry with original blob
+            }
+          },
+          error(err) {
+            reject(err);
+          },
+        });
+      };
+  
+      compress(file); // Start the compression process
+    });
+  };
+  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("short_desc", shortDescription);
+    
+    const div = document.createElement("div");
+    div.innerHTML = description;
+    const images = div.querySelectorAll("img");
+  
+    for (const img of images) {
+      const src = img.src;
+  
+      if (src.startsWith("data:image")) {
+        try {
+          const blob = await fetch(src).then((res) => res.blob());
+          console.log("Original size:", blob.size / 1024, "KB");
+  
+          const compressedBlob = await compressImage(blob);
+          console.log("Compressed size:", compressedBlob.size / 1024, "KB");
+  
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            img.src = reader.result;
+          };
+          reader.readAsDataURL(compressedBlob);
+        } catch (error) {
+          console.error("Image compression failed:", error);
+        }
+      }
+    }
+  
+    formData.append("description", div.innerHTML);
+    formData.append("category", category.join(" "));
+
+    if (selectedFile) {
+      formData.append("bannerImage", selectedFile);
+    }
+
+    try {
+      const response = await axios.put(`${baseUrl}/api/blog/update/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("Blog updated successfully");
+      navigate("/blogs/blog-list");
+    } catch (error) {
+      console.error("Error updating blog:", error);
+      alert("Failed to update blog. Please try again.");
+    }
+  };
+
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    if (!categoryName.trim()) return;
 
     try {
       const response = await axios.post(`${baseUrl}/api/categories/add`, {
         category_name: categoryName.trim(),
       });
-
-      console.log(response.data); // Handle successful response
-      setCategoryName(""); // Reset category input
-      setCategories([...categories, { category_name: response.data.category_name }]); // Update categories with new category
+      setCategoryName("");
+      setCategories([...categories, { category_name: response.data.category_name }]);
     } catch (error) {
       console.error("Error adding category:", error);
     }
   };
-
-  const handleFileChange = (e) => setSelectedFile(e.target.files[0]);
 
   if (!blog) {
     return <div>Loading...</div>;
@@ -159,6 +211,13 @@ const UpdateBlogs = () => {
                     type="file"
                     onChange={handleFileChange}
                   />
+                  {blog.banner_image_url && !selectedFile && (
+                    <img
+                      src={blog.banner_image_url}
+                      alt="Current Banner"
+                      style={{ height: "20px", width: "20px", marginLeft: "10px" }}
+                    />
+                  )}
                 </div>
                 <div className="d-flex">
                   <label htmlFor="shortDescription">Short Description</label>{" "}
@@ -181,39 +240,39 @@ const UpdateBlogs = () => {
           </div>
           <div className="right">
             <div className="right-form">
-
-             <div className="form-child">
-             <h3>Categories</h3> <br />
-              <div className="categories">
-              {categories.map(category => (
-                  <label key={category.id}>
+              <div className="form-child">
+                <h3>Categories</h3> <br />
+                <div className="categories">
+                  {categories.map((categoryItem) => (
+                    <label key={categoryItem.id}>
+                      <input
+                        type="checkbox"
+                        value={categoryItem.category_name}
+                        checked={category.includes(categoryItem.category_name)}
+                        onChange={handleCategoryChange}
+                      />
+                      {categoryItem.category_name}
+                    </label>
+                  ))}
+                </div>
+                <div className="add-category">
+                  <form onSubmit={handleAddCategory}>
                     <input
-                      type="checkbox"
-                      value={category.category_name}
-                      onChange={handleCategoryChange}
-                    />{" "}
-                    {category.category_name}
-                  </label>
-                ))}
+                      type="text"
+                      placeholder="Add new category"
+                      value={categoryName}
+                      onChange={(e) => setCategoryName(e.target.value)}
+                    />
+                    <button type="submit" className="add-category-button">
+                      Add
+                    </button>
+                  </form>
+                </div>
               </div>
-              <div className="add-category">
-              <form onSubmit={handleAddCategory}>
-                  <input
-                    type="text"
-                    placeholder="Add new category"
-                    value={categoryName}
-                    onChange={(e) => setCategoryName(e.target.value)}
-                  />
-                  <button type="submit" className="add-category-button">
-                    Add
-                  </button>
-                </form>
-              </div>
-             </div>
             </div>
           </div>
           <div className="right right-down">
-            <div className="b-form">
+            <div className="b-form" >
               <label htmlFor="description" style={{ marginTop: "10px" }}>
                 Description
               </label>
@@ -243,8 +302,14 @@ const UpdateBlogs = () => {
                   "align",
                 ]}
                 placeholder="Write the blog content here..."
+                style={{height:'70%'}}
               />
             </div>
+
+
+
+
+
           </div>
         </div>
       </div>

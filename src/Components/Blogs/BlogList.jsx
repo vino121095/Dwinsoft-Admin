@@ -16,7 +16,8 @@ const BlogList = () => {
     const fetchBlogs = async () => {
       try {
         const response = await axios.get(`${baseUrl}/api/blog`);
-        console.log(response.data)
+       // console.log(response.data)
+        console.log("Data Fetched From DB Succesfully")
         setBlogs(response.data);
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -30,9 +31,13 @@ const BlogList = () => {
   const handleEditClick = (id) => navigate(`/users/update-user/${id}`);
 
   const handleDeleteClick = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
+    if (!confirmDelete) return;
+    
     try {
       await axios.delete(`${baseUrl}/api/blog/${id}`);
       setBlogs(blogs.filter((blog) => blog.id !== id)); // Update state after deletion
+      alert("API documentation deleted successfully.")
     } catch (error) {
       console.error("Error deleting blog:", error);
     }
