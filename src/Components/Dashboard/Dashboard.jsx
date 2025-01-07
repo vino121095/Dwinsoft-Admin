@@ -37,7 +37,7 @@ const Dashboard = () => {
   return (
     <div className='dash-parent'>
       <div className="sidebar">
-        <div>
+        <div className='nav-content'>
         
           <a href="#" onClick={refreshPage}>
             <img src={DwinLogo} alt="Dwinsoft Logo" />

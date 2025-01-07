@@ -85,3 +85,26 @@
     font-size: 12px;
   }
   
+  .password-group {
+    position: relative;
+  }
+  
+  .password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-container input {
+    flex: 1;
+    padding-right: 2.5rem; /* Space for the eye icon */
+  }
+  
+  .eye-icon {
+    position: absolute;
+    right: 0.5rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #6c757d;
+  }
+  

@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./Config/db");
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 const authRoutes = require("./Routes/auth");
 const UserRoutes = require("./Routes/user");
 const blogRoutes = require("./Routes/blog");
@@ -23,9 +22,10 @@ app.use(
 );
 app.use(cookieParser());
 
-// Use body-parser without explicit limit
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+
+// Parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Database sync
 (async () => {

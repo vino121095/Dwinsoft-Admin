@@ -30,6 +30,10 @@ body {
 
 }
 
+.addapi-parent .api-form h1{
+margin-left: 20px;
+}
+
 .addapi-parent .childform{
   height: 80%;
   width: 95%;
@@ -86,6 +90,25 @@ body {
   margin: 20px;
 }
 
+.submit-button{
+    
+        background-color: #09007A;
+        /* Updated color */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.4s ease, color 0.4s ease, border 0.4s ease;
+      }
+      
+.submit-button:hover {
+        background-color: white;
+        color: #09007A;
+        border: 1px solid #09007A;
+        border-radius: 4px;
+      }
 
 
 @media only screen and (max-width: 1200px) {

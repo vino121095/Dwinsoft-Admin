@@ -3,14 +3,16 @@ import axios from "axios";
 import "./AddUser.css";
 import Dashboard from "../Dashboard/Dashboard";
 import { baseUrl } from "../Urls";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AddUser = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     userName: "",
-    email: "", // Default email (editable)
+    email: "",
     phoneNumber: "",
     password: "",
   });
@@ -31,7 +33,6 @@ const AddUser = () => {
       console.log("Response:", response.data);
       alert("User added successfully!");
       navigate("/users/user-list");
-      // Optionally, reset the form or navigate to another page
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to add user. Please try again.");
@@ -63,7 +64,8 @@ const AddUser = () => {
               type="email"
               id="email"
               value={formData.email}
-              onChange={handleInputChange} // Make the email editable
+              onChange={handleInputChange}
+              required
             />
           </div>
           <div className="form-group">
@@ -77,18 +79,28 @@ const AddUser = () => {
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">New Password *</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter New Password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-            />
+          <div className="form-group password-group">
+            <label htmlFor="password">Password *</label>
+            <div className="password-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="Enter New Password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
+              <span
+                className="eye-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
           </div>
-          <button type="submit" className="btn">Add New</button>
+          <button type="submit" className="btn">
+            Add New
+          </button>
         </form>
         <footer className="footer">
           © 2024. All rights reserved by Dwinsoft Technologies India Pvt Ltd.

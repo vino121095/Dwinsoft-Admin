@@ -53,7 +53,7 @@ const createApiDoc = async (req, res) => {
       console.log("Banner Image URL:", banner_image_url);
     }
 
-    console.log(title, short_desc, description, banner_image_url, link);
+    //console.log(title, short_desc, description, banner_image_url, link);
 
     // Create new API doc entry
     const apiDoc = await ApiDocs.create({
@@ -65,7 +65,7 @@ const createApiDoc = async (req, res) => {
     });
 
     // Log created API doc
-    console.log("Created API Doc:", apiDoc);
+    console.log("Created API Doc:", apiDoc.title);
 
     // Respond with the created API doc
     res.status(201).json(apiDoc);

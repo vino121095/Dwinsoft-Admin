@@ -5,6 +5,7 @@
 
 body {
   overflow-x: hidden;
+  height: 100% !important;
 }
 
 .addblogs-parent {
@@ -17,7 +18,7 @@ body {
 
 .addblogs-parent .right {
 
-  margin: 20px;
+  height: 100% !important;
   width: 80vw;
 }
 
@@ -97,11 +98,11 @@ body {
 
 .form {}
 
-.form h1 {
-  color: rgb(70, 70, 70);
-  text-align: start;
-  margin-left: 30px;
-  font-weight: normal;
+.right h1 {
+    font-family: "Roboto", serif;
+    font-weight: 500;
+    font-style: normal;
+    margin-left: 20px;
 }
 
 .all-form {
@@ -136,7 +137,7 @@ body {
 }
 
 .top-forms .right-form {
-  height: 60vh;
+  min-height: 60vh !important;
   width: 30vw;
   background-color: white;
   margin: 10px;
@@ -146,20 +147,25 @@ body {
 }
 
 .all-form .bottom-form {
-  height: 70vh;
+    
+  height: 100%;
   width: 70vw;
   margin-top: 0px;
 
 }
 
+.addblogs-parent .right .up .right-down {
+   padding: 20px;
+   min-height: 60vh;
+  }
+
 .addblogs-parent .right .up .right-down .b-form {
-  height: 70vh;
+  height: 100%;
   width: 90% !important;
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(170, 170, 170);
   border-radius: 8px;
-  margin-top: 20px;
-  padding: 20PX;
+
 }
 
 .left-form form {
@@ -189,7 +195,10 @@ body {
   padding: 5px;
 }
 
-
+.cf{
+padding: 10px;
+margin-bottom: 10px !important;
+}
 .left-form form .descInput {
   font-family: "Roboto", serif;
   height: 200px; /* Height for single-line input */
@@ -212,13 +221,14 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
- 
+  margin-bottom: 0px;
 }
 
 #charCount {
   font-size: 14px;
   margin-top: 5px;
   color: #555;
+  margin-left: 10px;
 }
 
 #shortDescription {
@@ -299,6 +309,7 @@ body {
   border: none;
   margin-left: 10px;
   width: 30%;
+  margin-top: 10px;
 }
 
 .left-form .submit-button:hover{
@@ -309,6 +320,7 @@ body {
 }
 .right-form .form-child {
   padding-left: 10px;
+  min-height: 65vh;
 }
 
 .right-form h3 {
@@ -415,7 +427,7 @@ body {
   }
 
   #shortDescription {
-    height: 200px;
+    height: 100px;
     width: 300px;
     padding: 10px;
     font-size: 16px;
@@ -446,6 +458,16 @@ body {
   }
 
 
+  .left-form .submit-button {
+    background-color: #09007A;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    margin-left: 10px;
+    width: 30%;
+  }
+  
 }
 
 @media only screen and (max-width: 600px) {

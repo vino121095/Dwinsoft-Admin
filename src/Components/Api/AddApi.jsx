@@ -20,50 +20,56 @@ const AddApi = () => {
 
 
  const compressImage = (file) => {
-    return new Promise((resolve, reject) => {
-      const targetSize = 45 * 1024; // Target size (45KB with tolerance +/- 5KB)
-      const minQuality = 0.1; // Minimum compression quality
-      let quality = 0.2; // Aggressive starting quality
-      let maxWidth = 600; // Max width to drastically reduce resolution
-      let maxHeight = 600; // Max height to drastically reduce resolution
-  
-      const compress = (blob) => {
-        if (quality < minQuality) {
-          console.warn("Image compression reached minimum quality but could not meet target size:", blob.size / 1024, "KB");
-          resolve(blob); // Return the best possible result
-          return;
-        }
-  
-        new Compressor(blob, {
-          quality, // Aggressive compression quality
-          maxWidth, // Force resizing
-          maxHeight, // Force resizing
-          success(result) {
-            if (result.size <= 50 * 1024 && result.size >= 40 * 1024) {
-              resolve(result); // If size is within the 40-50 KB range, accept it
-            } else if (result.size > 50 * 1024) {
-              // If the size is still too large, reduce quality more
-              quality -= 0.05;
-              compress(result); // Retry compression
-            } else {
-              // If the image is still too small, increase quality slightly
-              quality += 0.05;
-              compress(blob); // Retry with original blob
-            }
-          },
-          error(err) {
-            reject(err);
-          },
-        });
-      };
-  
-      compress(file); // Start the compression process
-    });
-  };
+     return new Promise((resolve, reject) => {
+       const targetSize = 40 * 1024; // Target size (40KB)
+       const minQuality = 0.1; // Minimum compression quality
+       let quality = 0.2; // Aggressive starting quality
+       let maxWidth = 600; // Max width to drastically reduce resolution
+       let maxHeight = 600; // Max height to drastically reduce resolution
+   
+       const compress = (blob) => {
+         if (quality < minQuality) {
+           console.warn("Image compression reached minimum quality but could not meet target size:", blob.size / 1024, "KB");
+           resolve(blob); // Return the best possible result
+           return;
+         }
+   
+         console.log("Compressing image with quality:", quality);
+   
+         new Compressor(blob, {
+           quality, // Aggressive compression quality
+           maxWidth, // Force resizing
+           maxHeight, // Force resizing
+           success(result) {
+             console.log("Compression successful, new size:", result.size / 1024, "KB");
+   
+             if (result.size <= targetSize) {
+               console.log("Image within acceptable size range.");
+               resolve(result); // If size is within acceptable range, accept it
+             } else if (result.size > targetSize) {
+               // If the size is too large, reduce quality more
+               console.log("Image still too large. Reducing quality...");
+               quality -= 0.05;
+               compress(result); // Retry compression
+             } else {
+               // If the image is too small, do not increase quality
+               console.log("Image is too small, but it meets the size requirement.");
+               resolve(result); // Accept it as is
+             }
+           },
+           error(err) {
+             console.error("Compression error:", err);
+             reject(err);
+           },
+         });
+       };
+   
+       compress(file); // Start the compression process
+     });
+   };
 
 
   const handleSubmit = async (e) => {
-    console.log("Submitted API");
     e.preventDefault();
   
     const formData = new FormData();
