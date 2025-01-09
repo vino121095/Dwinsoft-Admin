@@ -120,6 +120,7 @@ const UpdateApi = () => {
             reader.onerror = reject;
             reader.readAsDataURL(compressedBlob);
           });
+          
           img.src = base64CompressedImage;
         } catch (error) {
           console.error("Image compression failed:", error);
