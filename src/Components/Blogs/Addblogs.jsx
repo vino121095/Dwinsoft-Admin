@@ -185,7 +185,7 @@ const Addblogs = () => {
   return (
     <div className="addblogs-parent">
       <Dashboard />
-      <div className="right">
+      <div className="right" id="add-blog">
         <h1>Add New Blog</h1>
         {loading ? (
           <div className="loader-container">
