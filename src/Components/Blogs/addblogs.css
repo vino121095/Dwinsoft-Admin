@@ -17,8 +17,6 @@ body {
 }
 
 .addblogs-parent .right {
-
-  height: 100% !important;
   width: 80vw;
 }
 
@@ -33,7 +31,7 @@ body {
 
 .addblogs-parent .right .up .left {
   background-color: white;
-  height: 50%;
+  height: max-content;
   width: 60%;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 8px;
@@ -42,7 +40,7 @@ body {
 
 .addblogs-parent .right .up .right {
   background-color: white;
-  height: 50%;
+  /* height: max-content; */
   width: 20%;
 
   margin-left: 15px;
@@ -96,7 +94,7 @@ body {
   width: 50%;
 }
 
-.form {}
+/* .form {} */
 
 .right h1 {
     font-family: "Roboto", serif;
@@ -320,7 +318,7 @@ margin-bottom: 10px !important;
 }
 .right-form .form-child {
   padding-left: 10px;
-  min-height: 65vh;
+  /* min-height: 65vh; */
 }
 
 .right-form h3 {
@@ -358,7 +356,7 @@ margin-bottom: 10px !important;
 }
 
 .right-down {
-  height: 100% !important;
+  height: max-content !important;
 }
 
 .b-form {
@@ -542,4 +540,16 @@ margin-bottom: 10px !important;
   }
 
 
+}
+.loader-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#add-blog{
+  overflow-y: scroll;
+  height: 95vh !important;
 }

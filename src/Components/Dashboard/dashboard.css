@@ -30,7 +30,7 @@ margin-bottom: 20px;
 .sidebar{
 background-color: rgb(255, 255, 255);
 width: 250px;
-height: 100vh;
+height: 100%;
 margin: 0;
 padding: 0;
 display: flex;
@@ -57,6 +57,8 @@ transition: none !important;
 .sidebar ul li a{
     font-size: 18px;
     font-family: "Roboto", serif;
+    display: flex;
+    align-items: center;
     font-weight: 500;
     font-style: normal;
     text-decoration: none;
@@ -74,4 +76,18 @@ color: red !important;
 margin: 0px;
 padding: 0px!important;
 margin-bottom: auto;
+}
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px; 
+}
+
+.text {
+  flex-grow: 1;
+  text-align: left;
+  font-size: 16px;
 }
