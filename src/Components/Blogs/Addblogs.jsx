@@ -8,6 +8,9 @@ import "./addblogs.css";
 import { useParams, useNavigate } from "react-router-dom";
 import Compressor from "compressorjs"; // Import Compressor.js
 import { ClipLoader } from "react-spinners"; // Import ClipLoader
+import Confetti from 'react-confetti';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Addblogs = () => {
   const [title, setTitle] = useState(""); // State to manage title
@@ -18,6 +21,7 @@ const Addblogs = () => {
   const [categoryName, setCategoryName] = useState(""); // State for new category input
   const [categories, setCategories] = useState([]); // State for fetched categories
   const [loading, setLoading] = useState(false); // State for loader
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -166,9 +170,21 @@ const Addblogs = () => {
         timeout: 60000, // Timeout after 60 seconds
       });
       console.log("Data successfully sent to backend");
-      alert("Blog created successfully");
-      navigate("/blogs/blog-list");
-    } catch (error) {
+      
+      setIsSubmitted(true);
+      // Reset submission state after some time
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 4000);
+      
+      toast(
+        <h5 style={{ fontWeight: 'bold', color: 'rgb(29, 9, 78)' }}>
+          Blog Added successfully
+        </h5>,
+        {
+          autoClose: 3000, // Toast will disappear after 3 seconds
+        }
+      );    } catch (error) {
       if (error.code === "ECONNABORTED") {
         alert("Request timed out. Please try again later.");
       } else {
@@ -177,7 +193,13 @@ const Addblogs = () => {
     } finally {
       setLoading(false);
     }
-  };
+
+   
+    setTimeout(() => {
+        navigate("/blogs/blog-list");
+      }, 4000); 
+
+};
   
 
   const handleFileChange = (e) => setSelectedFile(e.target.files[0]);
@@ -185,7 +207,7 @@ const Addblogs = () => {
   return (
     <div className="addblogs-parent">
       <Dashboard />
-      <div className="right" id="add-blog">
+      <div className="right">
         <h1>Add New Blog</h1>
         {loading ? (
           <div className="loader-container">
@@ -204,6 +226,7 @@ const Addblogs = () => {
                     placeholder="Enter your title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
                   /> <br />
                   <div className="d-flex l text-center">
                     <label className="imagel">Image:</label>
@@ -229,6 +252,7 @@ const Addblogs = () => {
                   <button type="submit" className="submit-button">
                     Submit
                   </button>
+                  {isSubmitted && <Confetti />}
                 </form>
               </div>
             </div>
@@ -300,7 +324,8 @@ const Addblogs = () => {
             </div>
           </div>
         )}
-      </div>
+      <ToastContainer />
+       </div>
     </div>
   );
 };

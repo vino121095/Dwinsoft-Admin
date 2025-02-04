@@ -6,7 +6,10 @@ import axios from "axios"; // Import axios
 import { baseUrl } from "../Urls";
 import "./addapi.css";
 import { useParams, useNavigate } from "react-router-dom";
+import Confetti from 'react-confetti';
 import Compressor from "compressorjs"; // Import Compressor.js
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const AddApi = () => {
@@ -15,6 +18,8 @@ const AddApi = () => {
   const [shortDescription, setShortDescription] = useState(""); // State for short description
   const [description, setDescription] = useState(""); // State for description
   const [selectedFile, setSelectedFile] = useState(null); // State for banner image upload
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  
   const navigate = useNavigate();
 
 
@@ -92,8 +97,8 @@ const AddApi = () => {
           const compressedBlob = await compressImage(blob);
           console.log("Compressed size:", compressedBlob.size / 1024, "KB");
   
-          // Convert compressed Blob to Data URL (Base64)
-          const base64CompressedImage = await new Promise((resolve, reject) => {
+           // Convert compressed Blob to Data URL (Base64)
+           const base64CompressedImage = await new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onloadend = () => resolve(reader.result);
             reader.onerror = reject;
@@ -114,13 +119,7 @@ const AddApi = () => {
       formData.append("bannerImage", selectedFile);
     }
   
-    console.log("Form data to be sent:", {
-          title,
-          link,
-          short_desc: shortDescription,
-          description: div.innerHTML,
-          bannerImage: selectedFile,
-        });
+    console.log("Form data sending");
 
     try {
       const response = await axios.post(`${baseUrl}/api/docs`, formData, {
@@ -128,9 +127,26 @@ const AddApi = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Api created successfully:", response.data);
-      alert("Api created successfully");
-      navigate("/users/api-list");
+      
+      setIsSubmitted(true);
+      // Reset submission state after some time
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 4000);
+      
+      console.log("Api created successfully:");
+ toast(
+        <h5 style={{ fontWeight: 'bold', color: 'rgb(29, 9, 78)' }}>
+          API Added successfully
+        </h5>,
+        {
+          autoClose: 3000, // Toast will disappear after 3 seconds
+        }
+      );     
+      
+      setTimeout(() => {
+        navigate("/users/api-list");
+    }, 4000); 
     } catch (error) {
       console.error("Error submitting blog:", error);
       alert("Failed to create Api. Please try again.");
@@ -146,7 +162,7 @@ const AddApi = () => {
       <Dashboard />
       <div className="addapi-form">
         <div className="api-form">
-          <h1>Add API</h1>
+          <h1>Add New API</h1>
           <div className="childform">
             <div className="left">
               <form onSubmit={handleSubmit}>
@@ -157,6 +173,7 @@ const AddApi = () => {
                   placeholder="Enter your title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  required
                 /> <br />
                 <label htmlFor="title">API link*</label> <br />
                 <input
@@ -186,6 +203,7 @@ const AddApi = () => {
                 <button type="submit" className="submit-button">
                   Submit
                 </button>
+                {isSubmitted && <Confetti />}
               </form>
             </div>
             <div className="right">
@@ -223,7 +241,7 @@ const AddApi = () => {
             </div>
           </div>
         </div>
-      </div>
+     <ToastContainer /> </div>
     </div>
   );
 };

@@ -18,19 +18,23 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 20px;
 }
 
 .addapi-parent .api-form{
-  height: 75%;
+  height: 100%;
   width: 95%;
   background-color: white;
   border-radius: 12px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
- 
+
 
 }
 
 .addapi-parent .api-form h1{
+    font-family: "Roboto", serif;
+  font-weight: 500;
+  font-size: 1.5rem;
 margin-left: 20px;
 }
 
@@ -78,6 +82,7 @@ margin-left: 20px;
   height: 200px;
   border: 1px solid gainsboro;
   border-radius: 4px;
+  width: 80%;
 }
 
 .addapi-parent .childform .right .b-form{
@@ -116,18 +121,19 @@ margin-left: 20px;
 
   .addapi-parent .childform{
     flex-wrap: wrap;
+    height: 100%;
   }
 
 
 
   .addapi-parent .api-form .left{
-    height: 80%;
+    height: 100%;
     width: 100%;
    
     margin-top: 5px;
   }
   .addapi-parent .api-form .right{
-    height: 80%;
+    height: 100%;
     width: 100%;
    
     margin-top: 5px;
@@ -192,7 +198,14 @@ margin-left: 20px;
     height: 240px;
     width: 360px;
   }
-
+#root{
+height: 100%;
+}
+  .b-form{
+position: relative;
+top: 300px;
+}
+  
 }
 
 @media only screen and (max-width: 600px) {

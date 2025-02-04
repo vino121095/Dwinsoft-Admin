@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Toaster, toast } from "react-hot-toast";
 import { baseUrl } from "../Urls";
-import "./login.css";
-
 import DwinLogo from "../../assets/dwinsoftLogo_dark.png";
+import "./login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -21,8 +20,6 @@ function Login() {
     }
   }, [navigate]);
 
- 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,7 +27,7 @@ function Login() {
         email,
         password,
       });
-      navigate("/admin/dashboard");
+
       if (response.data.success) {
         const { token, user } = response.data;
         localStorage.setItem("token", token);
@@ -47,49 +44,46 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <div className="logo-container">
-          <img src={DwinLogo} alt="Dwinsoft Logo" className="logo" />
+    <div id="login-container">
+      <div id="login-box">
+        <div id="logo-container">
+          <img src={DwinLogo} alt="Dwinsoft Logo" id="logo" />
         </div>
-        <h2 className="login-title">LOGIN</h2>
+        <h2 id="login-title">LOGIN</h2>
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
+          <div id="email-group">
             <label>Email ID</label>
             <input
               type="email"
+              id="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="input-group password-group">
+          <div id="password-group">
             <label>Password</label>
-            <div className="password-container">
+            <div id="password-container">
               <input
                 type={showPassword ? "text" : "password"}
+                id="password"
                 placeholder="Enter Your Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
               {showPassword ? (
-                <FaEyeSlash
-                  className="eye-icon"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
+                <FaEyeSlash id="eye-icon" onClick={() => setShowPassword(!showPassword)} />
               ) : (
-                <FaEye
-                  className="eye-icon"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
+                <FaEye id="eye-icon" onClick={() => setShowPassword(!showPassword)} />
               )}
             </div>
           </div>
-          <button type="submit" className="login-btn">
-            Log In
-          </button>
+          <div id="forgot-pwd">
+            <Link to="/forgotpassword" id="forgot-link">Forgot password?</Link>
+          </div>
+          <button type="submit" id="login-btn">Log In</button>
         </form>
       </div>
       <Toaster />

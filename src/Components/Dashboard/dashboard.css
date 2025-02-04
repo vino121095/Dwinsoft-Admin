@@ -11,6 +11,7 @@ body {
 #root{
 padding: 0;
 margin: 0;
+width: 100vw;
 }
 .dash-parent{
 height: 100%;
@@ -30,7 +31,7 @@ margin-bottom: 20px;
 .sidebar{
 background-color: rgb(255, 255, 255);
 width: 250px;
-height: 100%;
+height: 100vh;
 margin: 0;
 padding: 0;
 display: flex;
@@ -42,7 +43,9 @@ padding: 10px;
 .sidebar ul{
   height: 100vh;
   padding: 0px;
-  margin-left: 40px;
+  margin-left: 30px;
+ 
+
 }
 
 .sidebar ul li{
@@ -57,14 +60,14 @@ transition: none !important;
 .sidebar ul li a{
     font-size: 18px;
     font-family: "Roboto", serif;
-    display: flex;
-    align-items: center;
     font-weight: 500;
     font-style: normal;
     text-decoration: none;
     letter-spacing: 1px;
     color: rgb(100, 100, 100);
-    transition: none !important;
+    transition: all 0.3s ease-in-out;
+        padding-left: 10px;
+  
 }
 .sidebar ul li a:hover{
   text-decoration: underline 1px ;
@@ -72,22 +75,12 @@ transition: none !important;
   transition: none !important;
 }
 .logout{
-color: red !important;
+    font-size: 18px;
+color:black;
 margin: 0px;
-padding: 0px!important;
+ background-color: rgb(221, 214, 214);
+ padding: 5px;
+ border-radius: 4px;
 margin-bottom: auto;
 }
-.icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  margin-right: 8px; 
-}
 
-.text {
-  flex-grow: 1;
-  text-align: left;
-  font-size: 16px;
-}

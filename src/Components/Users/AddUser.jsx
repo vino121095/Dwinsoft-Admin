@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AddUser.css";
 import Dashboard from "../Dashboard/Dashboard";
@@ -16,6 +16,16 @@ const AddUser = () => {
     phoneNumber: "",
     password: "",
   });
+
+  useEffect(() => {
+    // Clear form fields to prevent autofill
+    setFormData({
+      userName: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
+    });
+  }, []); // Run this only once when the component mounts
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -52,6 +62,7 @@ const AddUser = () => {
             <input
               type="text"
               id="userName"
+              autoComplete="new-password"
               placeholder="Enter Your User Name"
               value={formData.userName}
               onChange={handleInputChange}
@@ -63,6 +74,8 @@ const AddUser = () => {
             <input
               type="email"
               id="email"
+              autoComplete="new-password"
+              placeholder="Enter Your Email"
               value={formData.email}
               onChange={handleInputChange}
               required
@@ -73,6 +86,7 @@ const AddUser = () => {
             <input
               type="text"
               id="phoneNumber"
+              autoComplete="new-password"
               placeholder="Enter Your Phone Number"
               value={formData.phoneNumber}
               onChange={handleInputChange}
@@ -85,6 +99,7 @@ const AddUser = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
+                autoComplete="new-password"
                 placeholder="Enter New Password"
                 value={formData.password}
                 onChange={handleInputChange}

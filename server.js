@@ -7,6 +7,7 @@ const UserRoutes = require("./Routes/user");
 const blogRoutes = require("./Routes/blog");
 const categoryRoutes = require("./Routes/category");
 const apiDocsRoutes = require("./Routes/api");
+const forgotPassword = require("./Routes/forgotpassword");
 
 const app = express();
 const PORT = 5000;
@@ -39,6 +40,7 @@ app.use("/api", UserRoutes);
 app.use("/api", blogRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", apiDocsRoutes);
+app.use("/api", forgotPassword);
 
 // Start Server
 app.listen(PORT, () => {
