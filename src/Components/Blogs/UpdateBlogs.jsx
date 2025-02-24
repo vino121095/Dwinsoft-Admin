@@ -29,6 +29,7 @@ const UpdateBlogs = () => {
         const blogToUpdate = blogData.find((b) => b.id === parseInt(id));
         if (blogToUpdate) {
           setBlog(blogToUpdate);
+          console.log('from banner_im',blog.banner_image_url);
           setTitle(blogToUpdate.title);
           setShortDescription(blogToUpdate.short_desc);
           setDescription(blogToUpdate.description);
@@ -144,11 +145,16 @@ const UpdateBlogs = () => {
           const compressedBlob = await compressImage(blob);
           console.log("Compressed size:", compressedBlob.size / 1024, "KB");
   
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            img.src = reader.result;
-          };
-          reader.readAsDataURL(compressedBlob);
+           // Convert compressed Blob to Data URL (Base64)
+           const base64CompressedImage = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(compressedBlob);
+          });
+  
+          console.log("Updating image source.");
+          img.src = base64CompressedImage;
         } catch (error) {
           console.error("Image compression failed:", error);
         }
@@ -209,6 +215,7 @@ const UpdateBlogs = () => {
                   placeholder="Enter your title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  required
                 />{" "}
                 <br />
                 <div className="d-flex l text-center">
@@ -218,13 +225,7 @@ const UpdateBlogs = () => {
                     type="file"
                     onChange={handleFileChange}
                   />
-                  {blog.banner_image_url && !selectedFile && (
-                    <img
-                      src={blog.banner_image_url}
-                      alt="Current Banner"
-                      style={{ height: "20px", width: "20px", marginLeft: "10px" }}
-                    />
-                  )}
+
                 </div>
                 <div className="d-flex">
                   <label htmlFor="shortDescription">Short Description</label>{" "}

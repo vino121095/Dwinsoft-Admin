@@ -114,11 +114,16 @@ const UpdateApi = () => {
           
           const compressedBlob = await compressImage(blob);
           console.log("Compressed size:", compressedBlob.size / 1024, "KB");
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            img.src = reader.result;
-          };
-          reader.readAsDataURL(compressedBlob);
+          // Convert compressed Blob to Data URL (Base64)
+          const base64CompressedImage = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(compressedBlob);
+          });
+  
+          console.log("Updating image source.");
+          img.src = base64CompressedImage;
         } catch (error) {
           console.error("Image compression failed:", error);
         }
@@ -172,6 +177,7 @@ const UpdateApi = () => {
                   placeholder="Enter your title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  required
                 /> <br />
                 <label htmlFor="api">Api Link*</label> <br />
                 <input

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Components/Login/Login'
+import Forgotpassword from './Components/Login/Forgotpassword';
 import Dashboard from './Components/Dashboard/Dashboard'
 import Bloglist from './Components/Blogs/BlogList'
 import Addblogs from './Components/Blogs/Addblogs';
@@ -18,6 +19,7 @@ function App() {
      <BrowserRouter>
        <Routes>
         <Route path='/' element={<Login/>} />
+        <Route path='/forgotpassword' element={<Forgotpassword/>} />
         <Route path='/admin/dashboard' element= {<Dashboard/>} /> 
         <Route path= '/blogs/blog-list' element={<Bloglist/>}  />    
         <Route path= '/blogs/add-blog' element={<Addblogs/>}  />  

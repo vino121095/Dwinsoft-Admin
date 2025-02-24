@@ -22,16 +22,24 @@ body {
   display: flex;
   background-color: ghostwhite;
   width: 100vw;
- 
-}
 
+}
+.blog-child1{
+   
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+}
 .blog-list-container {
   font-family: Arial, sans-serif;
   padding: 20px;
   background-color: rgb(255, 255, 255);
-  width: 80vw;
+  width: 75vw;
   margin: 20px;
-  border-radius: 4px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+
 }
 
 .blog-list-header {
@@ -41,15 +49,18 @@ body {
   margin-bottom: 20px;
 }
 
-.blog-list-header h1 {
-  font-family: "Roboto", serif;
+.blog-list-container h1 {
+    font-family: "Roboto", serif;
     font-weight: 500;
-    font-style: normal;
+    font-size: 1.5rem;
+    
+    margin: 20px 0px 20px 0px;
 }
 
 .add-blog-btn {
   background-color: #09007A;
-  /* Updated color */
+ width: 160px;
+ text-align: center;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -129,6 +140,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
 
+   
   .blog-list-container {
     font-family: Arial, sans-serif;
     padding: 20px;
@@ -143,17 +155,19 @@ body {
     flex-direction: column;
     align-items: flex-start;
   }
-
+.blog-list-header .search-box{
+width: 180px;
+}
   .add-blog-btn {
     margin-top: 10px;
-    width: 50%;
+    width: 40%;
    
   }
 
   .blog-table th,
   .blog-table td {
     font-size: 12px;
-    padding: 8px;
+    padding: 4px;
   }
 
   .blog-image {

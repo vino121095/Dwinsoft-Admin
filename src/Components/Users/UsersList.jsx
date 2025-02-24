@@ -5,6 +5,9 @@ import Dashboard from "../Dashboard/Dashboard";
 import { baseUrl } from "../Urls"; // Make sure the baseUrl is correctly set to your backend API URL
 import axios from "axios";
 import { TrashFill, PencilSquare } from "react-bootstrap-icons";
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserList = () => {
   const [users, setUsers] = useState([]); // State to store the users
@@ -50,7 +53,17 @@ const UserList = () => {
       "Are you sure you want to delete this user?"
     );
 
-    if (confirmDelete) {
+    const result = await Swal.fire({
+          title: 'Are you sure?',
+          text: 'You won\'t be able to revert this!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!',
+        });
+    
+        if (result.isConfirmed) { {
       try {
         await axios.delete(`${baseUrl}/api/user/delete/${id}`); // Send DELETE request to backend
         alert("User deleted successfully!");
@@ -62,16 +75,17 @@ const UserList = () => {
         alert("Failed to delete user. Please try again.");
       }
     }
-  };
+}};
 
   return (
     <div className="main-container">
       <Dashboard />
       <div className="user-list">
+       
+        <div className="main-table">
         <header className="header">
           <h1>User List</h1>
         </header>
-        <div className="main-table">
           <div className="actions-container">
             <input
               type="text"
@@ -126,7 +140,7 @@ const UserList = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      <ToastContainer /> </div>
     </div>
   );
 };

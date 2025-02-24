@@ -101,8 +101,10 @@ body {
 .right h1 {
     font-family: "Roboto", serif;
     font-weight: 500;
-    font-style: normal;
-    margin-left: 20px;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    margin: 20px;
 }
 
 .all-form {
@@ -310,6 +312,8 @@ margin-bottom: 10px !important;
   margin-left: 10px;
   width: 30%;
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .left-form .submit-button:hover{
@@ -320,7 +324,7 @@ margin-bottom: 10px !important;
 }
 .right-form .form-child {
   padding-left: 10px;
-  min-height: 65vh;
+  height: 57vh;
 }
 
 .right-form h3 {
@@ -476,7 +480,9 @@ margin-bottom: 10px !important;
     display: none;
   }
 
-
+  #shortDescription{
+width:200px;
+}
   .addblogs-parent {
     background-color: ghostwhite;
     display: flex;

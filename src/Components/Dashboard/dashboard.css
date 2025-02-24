@@ -11,6 +11,7 @@ body {
 #root{
 padding: 0;
 margin: 0;
+width: 100vw;
 }
 .dash-parent{
 height: 100%;
@@ -42,7 +43,9 @@ padding: 10px;
 .sidebar ul{
   height: 100vh;
   padding: 0px;
-  margin-left: 40px;
+  margin-left: 30px;
+ 
+
 }
 
 .sidebar ul li{
@@ -62,7 +65,9 @@ transition: none !important;
     text-decoration: none;
     letter-spacing: 1px;
     color: rgb(100, 100, 100);
-    transition: none !important;
+    transition: all 0.3s ease-in-out;
+        padding-left: 10px;
+  
 }
 .sidebar ul li a:hover{
   text-decoration: underline 1px ;
@@ -70,8 +75,12 @@ transition: none !important;
   transition: none !important;
 }
 .logout{
-color: red !important;
+    font-size: 18px;
+color:black;
 margin: 0px;
-padding: 0px!important;
+ background-color: rgb(221, 214, 214);
+ padding: 5px;
+ border-radius: 4px;
 margin-bottom: auto;
 }
+

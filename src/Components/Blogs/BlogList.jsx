@@ -6,6 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../Urls";
 import { TrashFill, PencilSquare } from "react-bootstrap-icons";
 import parse from "html-react-parser"; // Import the html-react-parser package
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -31,15 +34,25 @@ const BlogList = () => {
   const handleEditClick = (id) => navigate(`/users/update-user/${id}`);
 
   const handleDeleteClick = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this item?");
-    if (!confirmDelete) return;
-    
-    try {
-      await axios.delete(`${baseUrl}/api/blog/${id}`);
-      setBlogs(blogs.filter((blog) => blog.id !== id)); // Update state after deletion
-      alert("API documentation deleted successfully.")
-    } catch (error) {
-      console.error("Error deleting blog:", error);
+    // Show SweetAlert2 confirmation dialog
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`${baseUrl}/api/blog/${id}`);
+        setBlogs(blogs.filter((blog) => blog.id !== id)); // Update state after deletion
+        toast.success(<h5 style={{ fontWeight: 'bold', color: 'rgb(29, 9, 78)' }}>Blog Deleted successfully</h5>);
+      } catch (error) {
+        console.error('Error deleting blog:', error);
+      }
     }
   };
 
@@ -50,9 +63,11 @@ const BlogList = () => {
   return (
     <div className="blog-list-Parent">
       <Dashboard />
+      <div className="blog-child1">
       <div className="blog-list-container">
+      <h1>Blog List</h1>
         <header className="blog-list-header">
-          <h1>Blog List</h1>
+         
           <div className="actions-container">
             <input
               type="text"
@@ -62,6 +77,7 @@ const BlogList = () => {
               onChange={handleSearchChange}
             />
           </div>
+          
           <Link to="/blogs/add-blog" className="add-blog-btn">
             + Add New Blog
           </Link>
@@ -72,9 +88,9 @@ const BlogList = () => {
               <th>S No</th>
               <th>Title</th>
               <th>Banner Image</th>
-              <th>Description Image</th>
+              <th>Description</th>
               <th>Date</th>
-              <th>Status</th>
+              
               <th>Actions</th>
             </tr>
           </thead>
@@ -91,12 +107,12 @@ const BlogList = () => {
                 <td className="parsed">{parse(blog.description.slice(0, 100))}...</td>
 
                 <td>{new Date(blog.createdAt).toLocaleDateString()}</td>
-                <td>{blog.status || "Unknown"}</td>
+               
                 <td>
-                  <button className="edit-btn" onClick={() => handleEditClick(blog.id)}>
+                  <button className="action-btn edit" onClick={() => handleEditClick(blog.id)}>
                     <PencilSquare className="edit" />
                   </button>
-                  <button className="delete-btn" onClick={() => handleDeleteClick(blog.id)}>
+                  <button className="action-btn delete" onClick={() => handleDeleteClick(blog.id)}>
                     <TrashFill className="trash" />
                   </button>
                 </td>
@@ -104,6 +120,7 @@ const BlogList = () => {
             ))}
           </tbody>
         </table>
+        <ToastContainer /></div>
       </div>
     </div>
   );
